@@ -1,4 +1,4 @@
-package dice;
+package model.dice;
 
 public class DiceSet {
 	

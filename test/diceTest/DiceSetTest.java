@@ -3,7 +3,7 @@ package diceTest;
 import org.junit.Before;
 import org.junit.Test;
 
-import dice.DiceSet;
+import model.dice.DiceSet;
 
 public class DiceSetTest {
 

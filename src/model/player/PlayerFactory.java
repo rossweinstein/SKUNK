@@ -1,17 +1,17 @@
-package player;
+package model.player;
 
 public class PlayerFactory {
 	
-	public static Player[] CreatePlayers(int numOfPlayers, String[] users, int chipStartingAmount) {
-		Player[] thePlayers = new Player[numOfPlayers];
+	public static SkunkPlayer[] CreatePlayers(int numOfPlayers, String[] users, int chipStartingAmount) {
+		SkunkPlayer[] thePlayers = new SkunkPlayer[numOfPlayers];
 		String[] CPUNames = getCPUPlayerNames();
 		
 		for (int i = 0; i < numOfPlayers; i++) {
 			
 			if (i < users.length) {
-				thePlayers[i] = new Player(users[i], chipStartingAmount, true);
+				thePlayers[i] = new UserController(users[i], chipStartingAmount);
 			} else {
-				thePlayers[i] = new Player(CPUNames[i - users.length] + " (CPU)", chipStartingAmount, false);
+				thePlayers[i] = new CPUController(CPUNames[i - users.length] + " (CPU)", chipStartingAmount);
 			}	
 		}	
 		return thePlayers;
@@ -26,8 +26,8 @@ public class PlayerFactory {
 		nameList[3] = "Shmi";
 		nameList[4] = "Helios";
 		nameList[5] = "Helena";
-		nameList[6] = "Donnie";
-		nameList[7] = "Allison";
+		nameList[6] = "Cosima";
+		nameList[7] = "Sarah";
 		return nameList;
 	}
 }

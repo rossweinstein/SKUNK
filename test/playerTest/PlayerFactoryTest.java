@@ -5,20 +5,22 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import player.Player;
-import player.PlayerFactory;
+import model.player.CPUController;
+import model.player.PlayerFactory;
+import model.player.SkunkPlayer;
+import model.player.UserController;
 
 public class PlayerFactoryTest {
 	
-	private Player[] thePlayers;
+	private SkunkPlayer[] thePlayers;
 	
 	@Before
 	public void SetUp() {
-		this.thePlayers = new Player[4];
-		this.thePlayers[0] = new Player("Ross", 50, true);
-		this.thePlayers[1] = new Player("Weinstein", 50, true);
-		this.thePlayers[2] = new Player("Linus (CPU)", 50, false);
-		this.thePlayers[3] = new Player("Newt (CPU)", 50, false);
+		this.thePlayers = new SkunkPlayer[4];
+		this.thePlayers[0] = new UserController("Ross", 50);
+		this.thePlayers[1] = new UserController("Weinstein", 50);
+		this.thePlayers[2] = new CPUController("Linus (CPU)", 50);
+		this.thePlayers[3] = new CPUController("Newt (CPU)", 50);
 	}
 
 	@Test
@@ -26,7 +28,7 @@ public class PlayerFactoryTest {
 		String[] names = new String[2];
 		names[0] = "Ross";
 		names[1] = "Weinstein";
-		Player[] factoryPlayers = PlayerFactory.CreatePlayers(4, names, 50);
+		SkunkPlayer[] factoryPlayers = PlayerFactory.CreatePlayers(4, names, 50);
 		assertArrayEquals(factoryPlayers, this.thePlayers);
 	}
 

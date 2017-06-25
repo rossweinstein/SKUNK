@@ -3,7 +3,7 @@ package diceTest;
 import org.junit.Before;
 import org.junit.Test;
 
-import dice.Die;
+import model.dice.Die;
 
 public class DieTest {
 
