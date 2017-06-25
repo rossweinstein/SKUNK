@@ -15,16 +15,4 @@ public class UserController extends SkunkPlayer {
 	public boolean wantsToRollDice() {
 		return this.input.askBinaryQuestion("Do you want to roll?", "y", "n");
 	}
-
-	@Override
-	public int compareTo(SkunkPlayer o) {
-		
-		if (this == o) {
-			return 0;
-		} else if (this.getPlayer().getScore() < o.getPlayer().getScore()) {
-			return 1;
-		} else {
-			return -1;
-		}
-	}
 }

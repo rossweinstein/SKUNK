@@ -14,10 +14,4 @@ public class CPUController extends SkunkPlayer {
 	public boolean wantsToRollDice() {
 		return this.rand.nextBoolean();
 	}
-
-	@Override
-	public int compareTo(SkunkPlayer o) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 }

@@ -10,6 +10,7 @@ public abstract class SkunkPlayer implements Comparable<SkunkPlayer>{
 		this.chips = chips;
 	}
 
+	@Override
 	public String toString() {
 		return this.thePlayer.getName() + "\t| Score: " + this.thePlayer.getScore() + "\n| Chips: " + this.chips;
 	}
@@ -30,6 +31,18 @@ public abstract class SkunkPlayer implements Comparable<SkunkPlayer>{
 		// cast and comparisons
 		SkunkPlayer otherPlayer = (SkunkPlayer) obj;
 		return this.thePlayer.equals(otherPlayer.thePlayer) && this.chips == otherPlayer.chips;
+	}
+	
+	@Override
+	public int compareTo(SkunkPlayer o) {
+		
+		if (this == o) {
+			return 0;
+		} else if (this.getPlayer().getScore() < o.getPlayer().getScore()) {
+			return 1;
+		} else {
+			return -1;
+		}
 	}
 
 	public abstract boolean wantsToRollDice();
