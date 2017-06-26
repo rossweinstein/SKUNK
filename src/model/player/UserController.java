@@ -13,6 +13,6 @@ public class UserController extends SkunkPlayer {
 
 	@Override
 	public boolean wantsToRollDice() {
-		return this.input.askBinaryQuestion("Do you want to roll?", "y", "n");
+		return this.input.askBinaryQuestion("Do you want to roll? (y/n)", "y", "n");
 	}
 }

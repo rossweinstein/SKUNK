@@ -18,6 +18,10 @@ public class Skunk {
 		this.theKitty = new Kitty();
 		this.dice = new DiceSet();
 	}
+	
+	public SkunkPlayer[] getPlayers() {
+		return this.thePlayers;
+	}
 
 	public void playGame() {
 		
@@ -48,8 +52,12 @@ public class Skunk {
 		
 		for (SkunkPlayer activePlayer : this.thePlayers) {
 			
+			System.out.println("\n" + activePlayer.getName() + "'s Turn\n");
+			
 			if (activePlayer.wantsToRollDice()) {
 				this.playerTakesTurn(activePlayer);
+			} else {
+				System.out.println(activePlayer.getName() + " decides to skip their turn");
 			}
 		}
 	}
@@ -74,35 +82,51 @@ public class Skunk {
 		int turnScore = 0;
 		int currentRollValue = 0;
 		boolean stillWantsToRoll = true;
+		
+		
 
 		while (stillWantsToRoll) {
 			
 			currentRollValue = this.dice.roll();
+			
 
 			if (this.doubleSkunk()) {
+				this.showDiceRoll();
+				System.out.println(activePlayer.getName() + " rolled a double SKUNK!");
 				activePlayer.rolledDoubleSkunk();
 				this.theKitty.addToKitty(4);
 				stillWantsToRoll = false;
 				
 			} else if (this.skunkWithDeuceRoll()) {
+				this.showDiceRoll();
+				System.out.println(activePlayer.getName() + " rolled a SKUNK!");
 				activePlayer.setChips(-2);
 				this.theKitty.addToKitty(2);
 				stillWantsToRoll = false;
 				
 			} else if (this.skunkWithoutDeuceRoll()) {
+				this.showDiceRoll();
+				System.out.println(activePlayer.getName() + " rolled a SKUNK!");
 				activePlayer.setChips(-1);
 				this.theKitty.addToKitty(1);
 				stillWantsToRoll = false;
 				
 			} else {
 				turnScore += currentRollValue;
+				System.out.println(activePlayer.getName() + " rolls a(n) " + currentRollValue );
 				
 				if (!activePlayer.wantsToRollDice()) {
+					
 					activePlayer.addToScore(turnScore);
 					stillWantsToRoll = false;
+					System.out.println(activePlayer.getName() + " passes the dice, now has " + activePlayer.getScore() + " points");
 				}
 			}
 		}
+	}
+	
+	private void showDiceRoll() {
+		System.out.println(this.dice.getDieOneValue() + " " + this.dice.getDieTwoValue());
 	}
 
 	private boolean skunkWithDeuceRoll() {
