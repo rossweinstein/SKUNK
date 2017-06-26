@@ -2,7 +2,7 @@ package skunkApp.mainMenu;
 
 import helpers.InputHelper;
 import helpers.MenuBuilder;
-import skunkApp.gameLogic.Skunk;
+import skunkApp.gameLogic.SkunkGameController;
 
 public class MainGame {
 
@@ -33,7 +33,7 @@ public class MainGame {
 		System.out.println();
 		String[] playerNames = this.getPlayerNames(numOfPlayers);
 
-		Skunk skunk = new Skunk(numOfPlayers, playerNames);
+		SkunkGameController skunk = new SkunkGameController(numOfPlayers, playerNames);
 		skunk.playGame();
 	}
 

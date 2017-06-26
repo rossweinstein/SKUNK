@@ -2,6 +2,9 @@ package modelTest.playerTest;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,15 +15,15 @@ import model.player.UserController;
 
 public class PlayerFactoryTest {
 	
-	private SkunkPlayer[] thePlayers;
+	private List<SkunkPlayer> thePlayers;
 	
 	@Before
 	public void SetUp() {
-		this.thePlayers = new SkunkPlayer[4];
-		this.thePlayers[0] = new UserController("Ross", 50);
-		this.thePlayers[1] = new UserController("Weinstein", 50);
-		this.thePlayers[2] = new CPUController("Linus (CPU)", 50);
-		this.thePlayers[3] = new CPUController("Newt (CPU)", 50);
+		this.thePlayers = new ArrayList<>();
+		this.thePlayers.add(new UserController("Ross", 50));
+		this.thePlayers.add(new UserController("Weinstein", 50));
+		this.thePlayers.add(new CPUController("Linus (CPU)", 50));
+		this.thePlayers.add(new CPUController("Newt (CPU)", 50));
 	}
 
 	@Test
@@ -28,7 +31,7 @@ public class PlayerFactoryTest {
 		String[] names = new String[2];
 		names[0] = "Ross";
 		names[1] = "Weinstein";
-		SkunkPlayer[] factoryPlayers = PlayerFactory.CreatePlayers(4, names, 50);
-		assertArrayEquals(factoryPlayers, this.thePlayers);
+		List<SkunkPlayer> factoryPlayers = PlayerFactory.CreatePlayers(4, names, 50);
+		assertEquals(factoryPlayers, this.thePlayers);
 	}
 }

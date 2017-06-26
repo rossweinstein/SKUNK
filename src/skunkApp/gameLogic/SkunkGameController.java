@@ -1,6 +1,9 @@
 package skunkApp.gameLogic;
 
 import java.util.Arrays;
+import java.util.List;
+
+import model.player.SkunkPlayer;
 
 public class SkunkGameController {
 
@@ -12,26 +15,97 @@ public class SkunkGameController {
 	
 	public void displayPlayers() {
 		System.out.println("Players:");
-		Arrays.stream(this.skunkGame.getPlayers()).forEach(player -> System.out.println("----  " + player.getName()));
+		
 	}
 	
 	public void PlaySkunk() {
 		
 		this.displayPlayers();
+
+	}
+	
+public void playGame() {
+		
+		while (!this.skunkGame.atLeastOnePlayerAtLeast100Points()) {
+			this.playRound();
+		}
+		
+		this.playFinalRound();
+	
+	}
+	
+	public void playerTakesTurn(SkunkPlayer activePlayer) {
+
+		int turnScore = 0;
+		int currentRollValue = 0;
+		boolean stillWantsToRoll = true;
+		
 		
 
+		while (stillWantsToRoll) {
 			
-			this.skunkGame.playGame();
+			currentRollValue = this.skunkGame.rollTheDice();
 			
+
+			if (this.skunkGame.doubleSkunk()) {
 			
-		
-		
-		
-		
+				System.out.println(activePlayer.getName() + " rolled a double SKUNK!");
+				activePlayer.rolledDoubleSkunk();
+				this.skunkGame.getKitty().addToKitty(4);
+				stillWantsToRoll = false;
+				
+			} else if (this.skunkGame.skunkWithDeuceRoll()) {
+				
+				System.out.println(activePlayer.getName() + " rolled a SKUNK!");
+				activePlayer.setChips(-2);
+				this.skunkGame.getKitty().addToKitty(2);
+				stillWantsToRoll = false;
+				
+			} else if (this.skunkGame.skunkWithoutDeuceRoll()) {
+				
+				System.out.println(activePlayer.getName() + " rolled a SKUNK!");
+				activePlayer.setChips(-1);
+				this.skunkGame.getKitty().addToKitty(1);
+				stillWantsToRoll = false;
+				
+			} else {
+				turnScore += currentRollValue;
+				System.out.println(activePlayer.getName() + " rolls a(n) " + currentRollValue );
+				
+				if (!activePlayer.wantsToRollDice()) {
+					
+					activePlayer.addToScore(turnScore);
+					stillWantsToRoll = false;
+					System.out.println(activePlayer.getName() + " passes the dice, now has " + activePlayer.getScore() + " points");
+				}
+			}
+		}
 	}
 	
 	public void shufflePlayers() {
 		
+	}
+public void playRound() {
+		
+		for (SkunkPlayer activePlayer : this.skunkGame.getPlayers()) {
+			
+			System.out.println("\n" + activePlayer.getName() + "'s Turn\n");
+			
+			if (activePlayer.wantsToRollDice()) {
+				this.playerTakesTurn(activePlayer);
+			} else {
+				System.out.println(activePlayer.getName() + " decides to skip their turn");
+			}
+		}
+	}
+	
+	private void playFinalRound() {
+		
+		List<SkunkPlayer> playersToRoll = this.skunkGame.findNonHighScorePlayers();
+		
+		for (SkunkPlayer activePlayer : playersToRoll) {
+			this.playerTakesTurn(activePlayer);
+		}
 	}
 	
 	public static void main (String[] args) {
