@@ -1,6 +1,8 @@
-package playerTest;
+package modelTest.playerTest;
 
 import static org.junit.Assert.*;
+
+import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -31,5 +33,4 @@ public class PlayerFactoryTest {
 		SkunkPlayer[] factoryPlayers = PlayerFactory.CreatePlayers(4, names, 50);
 		assertArrayEquals(factoryPlayers, this.thePlayers);
 	}
-
 }

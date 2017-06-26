@@ -1,18 +1,17 @@
 package model.player;
 
-public abstract class SkunkPlayer implements Comparable<SkunkPlayer>{
+public abstract class SkunkPlayer extends Player implements Comparable<SkunkPlayer> {
 
-	private Player thePlayer;
 	private int chips;
 
 	public SkunkPlayer(String name, int chips) {
-		this.thePlayer = new Player(name);
+		super(name);
 		this.chips = chips;
 	}
 
 	@Override
 	public String toString() {
-		return this.thePlayer.getName() + "\t| Score: " + this.thePlayer.getScore() + "\n| Chips: " + this.chips;
+		return this.getName() + " | Score: " + this.getScore() + " | Chips: " + this.chips;
 	}
 
 	@Override
@@ -30,15 +29,15 @@ public abstract class SkunkPlayer implements Comparable<SkunkPlayer>{
 
 		// cast and comparisons
 		SkunkPlayer otherPlayer = (SkunkPlayer) obj;
-		return this.thePlayer.equals(otherPlayer.thePlayer) && this.chips == otherPlayer.chips;
+		return this.getName().equals(otherPlayer.getName()) && this.getScore() == otherPlayer.getScore() && this.chips == otherPlayer.chips;
 	}
-	
+
 	@Override
 	public int compareTo(SkunkPlayer o) {
-		
+
 		if (this == o) {
 			return 0;
-		} else if (this.getPlayer().getScore() < o.getPlayer().getScore()) {
+		} else if (this.getScore() < o.getScore()) {
 			return 1;
 		} else {
 			return -1;
@@ -48,7 +47,8 @@ public abstract class SkunkPlayer implements Comparable<SkunkPlayer>{
 	public abstract boolean wantsToRollDice();
 
 	public void rolledDoubleSkunk() {
-		this.thePlayer.clearScore();
+		this.clearScore();
+		this.setChips(-4);
 	}
 
 	public void rolledSingleSkunkNoDeuce() {
@@ -63,16 +63,8 @@ public abstract class SkunkPlayer implements Comparable<SkunkPlayer>{
 		this.setChips(kittyAmount);
 	}
 
-	public void addRollToScore(int rollScore) {
-		this.thePlayer.addToScore(rollScore);
-	}
-
 	public int getChips() {
 		return chips;
-	}
-	
-	public Player getPlayer() {
-		return this.thePlayer;
 	}
 
 	public boolean hasEnoughChips(int chipPenalty) {
@@ -82,8 +74,8 @@ public abstract class SkunkPlayer implements Comparable<SkunkPlayer>{
 	public void setChips(int numOfChips) {
 		this.chips += numOfChips;
 	}
-	
-	public boolean scoreAtLeast100 () {
-		return this.thePlayer.getScore() >= 100;
+
+	public boolean scoreAtLeast100() {
+		return this.getScore() >= 100;
 	}
 }

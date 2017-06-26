@@ -31,7 +31,7 @@ public class Skunk {
 	
 	private void roundResults() {
 		Arrays.sort(this.thePlayers, (first, second) -> first.compareTo(second));
-		System.out.println("WINNER: " + this.thePlayers[0].getPlayer().getName() + "!");
+		System.out.println("WINNER: " + this.thePlayers[0].getName() + "!");
 	}
 	
 	private boolean atLeastOnePlayerAtLeast100Points() {
@@ -98,7 +98,7 @@ public class Skunk {
 				turnScore += currentRollValue;
 				
 				if (!activePlayer.wantsToRollDice()) {
-					activePlayer.addRollToScore(turnScore);
+					activePlayer.addToScore(turnScore);
 					stillWantsToRoll = false;
 				}
 			}

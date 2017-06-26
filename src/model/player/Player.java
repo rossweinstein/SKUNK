@@ -1,6 +1,6 @@
 package model.player;
 
-public class Player {
+public abstract class Player {
 	
 	private int score;
 	private String name;
