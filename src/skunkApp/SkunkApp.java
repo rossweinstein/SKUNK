@@ -1,11 +1,11 @@
 package skunkApp;
 
-import skunkApp.mainMenu.MainGame;
+import skunkApp.mainMenu.SkunkGame;
 
 public class SkunkApp {
 	
 	public static void main (String[] args) {
-		MainGame skunkGame = new MainGame();
+		SkunkGame skunkGame = new SkunkGame();
 		skunkGame.playGame();
 	}
 }

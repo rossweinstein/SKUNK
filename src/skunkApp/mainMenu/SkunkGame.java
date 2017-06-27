@@ -4,11 +4,11 @@ import helpers.InputHelper;
 import helpers.MenuBuilder;
 import skunkApp.gameLogic.SkunkGameController;
 
-public class MainGame {
+public class SkunkGame {
 
 	private InputHelper input;
 
-	public MainGame() {
+	public SkunkGame() {
 		this.input = new InputHelper();
 	}
 
