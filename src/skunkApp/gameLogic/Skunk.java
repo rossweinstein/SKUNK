@@ -23,6 +23,10 @@ public class Skunk {
 	public List<SkunkPlayer> getPlayers() {
 		return this.thePlayers;
 	}
+	
+	public void setPlayers(List<SkunkPlayer> players) {
+		this.thePlayers = players;
+	}
 
 	public Kitty getKitty() {
 		return this.theKitty;
@@ -45,7 +49,7 @@ public class Skunk {
 				&& currentPlayers.get(0).getScore() > currentPlayers.get(1).getScore();
 	}
 
-	public boolean atLeastOnePlayerAtLeast100Points(List<SkunkPlayer> skunkPlayers) {
+	public boolean hasAtLeastOnePlayerWith100Points(List<SkunkPlayer> skunkPlayers) {
 
 		return this.sortPlayersInDesceningOrder(skunkPlayers).get(0).scoreAtLeast100();
 	}

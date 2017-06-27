@@ -29,15 +29,24 @@ public class MainGame {
 
 	private void playSkunk() {
 		System.out.println();
-		int numOfPlayers = this.askForNumberOfPlayers();
+		
+		int numOfPlayers = 0;
+		
+		numOfPlayers += this.askForNumberOfHumanPlayers();
+		
 		System.out.println();
-		String[] playerNames = this.getPlayerNames(numOfPlayers);
+		String[] playerNames = this.getPlayerHumanNames(numOfPlayers);
+
+		if (numOfPlayers < 8) {
+			System.out.println();
+			numOfPlayers += this.askForNumberOfComputerPlayers(8 - numOfPlayers);
+		}
 
 		SkunkGameController skunk = new SkunkGameController(numOfPlayers, playerNames);
-		skunk.playGame();
+		skunk.playSkunk();
 	}
 
-	private String[] getPlayerNames(int numOfPlayers) {
+	private String[] getPlayerHumanNames(int numOfPlayers) {
 
 		String[] playerNames = new String[numOfPlayers];
 
@@ -48,28 +57,53 @@ public class MainGame {
 		return playerNames;
 	}
 
-	private int askForNumberOfPlayers() {
+	private int askForNumberOfHumanPlayers() {
 
 		int numOfPlayers = 0;
 
 		boolean validNumOfPlayers = false;
 		while (!validNumOfPlayers) {
 
-			numOfPlayers = this.input.askForInteger("How many players (2-8): ");
+			numOfPlayers = this.input.askForInteger("How many human players (1-8): ");
 
-			if (numOfPlayers >= 2 && numOfPlayers <= 8) {
+			if (numOfPlayers >= 1 && numOfPlayers <= 8) {
 				validNumOfPlayers = true;
 			} else {
-				System.out.println("You must enter an integer between 2 and 8");
+				System.out.println("You must enter an integer between 1 and 8");
 			}
 		}
 
 		return numOfPlayers;
 	}
 
-	public static void main(String[] args) {
-		MainGame game = new MainGame();
-		game.playGame();
-	}
+	private int askForNumberOfComputerPlayers(int availableNumForCPUPlayers) {
+		int numOfCPUPlayers = 0;
 
+		boolean validNumOfPlayers = false;
+		while (!validNumOfPlayers) {
+
+			if (availableNumForCPUPlayers == 1) {
+
+				if (this.input.askBinaryQuestion("Would you like 1 computer player? (y/n)", "y", "n")) {
+					numOfCPUPlayers = 1;
+				} else {
+					numOfCPUPlayers = 0;
+				}
+
+			} else {
+
+				numOfCPUPlayers = this.input
+						.askForInteger("How many computer players (1-" + (availableNumForCPUPlayers) + "): ");
+
+				if (numOfCPUPlayers >= 1 && numOfCPUPlayers <= (availableNumForCPUPlayers)) {
+					validNumOfPlayers = true;
+				} else {
+					System.out.println("You must enter an integer between 1 and " + (availableNumForCPUPlayers));
+				}
+			}
+
+		}
+
+		return numOfCPUPlayers;
+	}
 }
