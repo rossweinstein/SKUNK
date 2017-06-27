@@ -1,4 +1,4 @@
-package skunkAppTest.gameLogicTest;
+package skunkAppTest.gameTest;
 
 import static org.junit.Assert.*;
 
@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import model.player.SkunkPlayer;
-import skunkApp.gameLogic.Skunk;
+import skunkApp.game.Skunk;
 
 public class SkunkTest {
 	
