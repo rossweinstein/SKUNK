@@ -19,14 +19,11 @@ public class DiceSetTest {
 		int[] values = new int[1000];
 
 		for (int i = 0; i < 1000; i++) {
-			values[i] = this.dice.roll();
+			
+			int[] rollValue = this.dice.roll();
+			values[i] = rollValue[0] + rollValue[1];
 		}
 		return values;
-	}
-	
-	@Test
-	public void checkUnrolledDiceSetIsNegativeOne() {
-		assert(this.dice.getLastDiceRoll() == -1);
 	}
 
 	@Test

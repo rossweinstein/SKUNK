@@ -1,6 +1,5 @@
 package skunkApp.gameLogic;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,9 +28,9 @@ public class Skunk {
 		return this.theKitty;
 	}
 
-	public SkunkPlayer theWinner() {
+	public SkunkPlayer theWinner(List<SkunkPlayer> skunkPlayers) {
 		
-		List<SkunkPlayer> sortedPlayers = this.sortPlayersInDesceningOrder();
+		List<SkunkPlayer> sortedPlayers = this.sortPlayersInDesceningOrder(skunkPlayers);
 
 		if (this.weHaveAWinner(sortedPlayers)) {
 			return sortedPlayers.get(0);
@@ -46,41 +45,36 @@ public class Skunk {
 				&& currentPlayers.get(0).getScore() > currentPlayers.get(1).getScore();
 	}
 
-	public boolean atLeastOnePlayerAtLeast100Points() {
+	public boolean atLeastOnePlayerAtLeast100Points(List<SkunkPlayer> skunkPlayers) {
 
-		return this.sortPlayersInDesceningOrder().get(0).scoreAtLeast100();
+		return this.sortPlayersInDesceningOrder(skunkPlayers).get(0).scoreAtLeast100();
 	}
 
-	public List<SkunkPlayer> findNonHighScorePlayers() {
+	public List<SkunkPlayer> findNonHighScorePlayers(List<SkunkPlayer> skunkPlayers) {
 
-		return this.sortPlayersInDesceningOrder().subList(1, this.thePlayers.size() - 1);
+		return this.sortPlayersInDesceningOrder(skunkPlayers).subList(1, this.thePlayers.size());
 	}
 
-	private List<SkunkPlayer> sortPlayersInDesceningOrder() {
+	public List<SkunkPlayer> sortPlayersInDesceningOrder(List<SkunkPlayer> skunkPlayers) {
 		
-		return this.thePlayers.stream()
+		return skunkPlayers.stream()
 								.sorted((player1, player2) -> player1.compareTo(player2))
 								.collect(Collectors.toList());
 	}
 	
-	public int rollTheDice() {
-		this.dice.roll();
-		return this.dice.getLastDiceRoll();
+	public int[] rollTheDice() {
+		return this.dice.roll();
 	}
 
-	public int[] getLastDiceRoll() {
-		return new int[] { this.dice.getDieOneValue(), this.dice.getDieTwoValue() };
+	public boolean skunkWithDeuceRoll(int[] lastRoll) {
+		return lastRoll[0] + lastRoll[1] == 3;
 	}
 
-	public boolean skunkWithDeuceRoll() {
-		return this.dice.getLastDiceRoll() == 3;
+	public boolean skunkWithoutDeuceRoll(int[] lastRoll) {
+		return lastRoll[0] + lastRoll[1] > 3 && lastRoll[0] == 1 || lastRoll[1] == 1;
 	}
 
-	public boolean skunkWithoutDeuceRoll() {
-		return this.dice.getLastDiceRoll() > 3 && this.dice.getDieOneValue() == 1 || this.dice.getDieTwoValue() == 1;
-	}
-
-	public boolean doubleSkunk() {
-		return this.dice.getLastDiceRoll() == 2;
+	public boolean doubleSkunk(int[] lastRoll) {
+		return lastRoll[0] + lastRoll[1] == 2;
 	}
 }

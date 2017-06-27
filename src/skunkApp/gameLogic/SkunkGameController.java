@@ -1,6 +1,5 @@
 package skunkApp.gameLogic;
 
-import java.util.Arrays;
 import java.util.List;
 
 import model.player.SkunkPlayer;
@@ -26,7 +25,7 @@ public class SkunkGameController {
 	
 public void playGame() {
 		
-		while (!this.skunkGame.atLeastOnePlayerAtLeast100Points()) {
+		while (!this.skunkGame.atLeastOnePlayerAtLeast100Points(this.skunkGame.getPlayers())) {
 			this.playRound();
 		}
 		
@@ -37,7 +36,7 @@ public void playGame() {
 	public void playerTakesTurn(SkunkPlayer activePlayer) {
 
 		int turnScore = 0;
-		int currentRollValue = 0;
+		int[] currentRollValue = null;
 		boolean stillWantsToRoll = true;
 		
 		
@@ -47,21 +46,21 @@ public void playGame() {
 			currentRollValue = this.skunkGame.rollTheDice();
 			
 
-			if (this.skunkGame.doubleSkunk()) {
+			if (this.skunkGame.doubleSkunk(currentRollValue)) {
 			
 				System.out.println(activePlayer.getName() + " rolled a double SKUNK!");
 				activePlayer.rolledDoubleSkunk();
 				this.skunkGame.getKitty().addToKitty(4);
 				stillWantsToRoll = false;
 				
-			} else if (this.skunkGame.skunkWithDeuceRoll()) {
+			} else if (this.skunkGame.skunkWithDeuceRoll(currentRollValue)) {
 				
 				System.out.println(activePlayer.getName() + " rolled a SKUNK!");
 				activePlayer.setChips(-2);
 				this.skunkGame.getKitty().addToKitty(2);
 				stillWantsToRoll = false;
 				
-			} else if (this.skunkGame.skunkWithoutDeuceRoll()) {
+			} else if (this.skunkGame.skunkWithoutDeuceRoll(currentRollValue)) {
 				
 				System.out.println(activePlayer.getName() + " rolled a SKUNK!");
 				activePlayer.setChips(-1);
@@ -69,7 +68,7 @@ public void playGame() {
 				stillWantsToRoll = false;
 				
 			} else {
-				turnScore += currentRollValue;
+				turnScore += currentRollValue[0] + currentRollValue[1];
 				System.out.println(activePlayer.getName() + " rolls a(n) " + currentRollValue );
 				
 				if (!activePlayer.wantsToRollDice()) {
@@ -101,7 +100,7 @@ public void playRound() {
 	
 	private void playFinalRound() {
 		
-		List<SkunkPlayer> playersToRoll = this.skunkGame.findNonHighScorePlayers();
+		List<SkunkPlayer> playersToRoll = this.skunkGame.findNonHighScorePlayers(this.skunkGame.getPlayers());
 		
 		for (SkunkPlayer activePlayer : playersToRoll) {
 			this.playerTakesTurn(activePlayer);

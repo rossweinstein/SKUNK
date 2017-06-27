@@ -23,11 +23,6 @@ public class DieTest {
 		}
 		return values;
 	}
-	
-	@Test
-	public void checkUnrolledDieIsNegativeOne() {
-		assert(this.theDie.getLastRoll() == -1);
-	}
 
 	@Test
 	public void testIfValueBetweenOneAndSix() {
