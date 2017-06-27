@@ -47,6 +47,7 @@ public abstract class SkunkPlayer extends Player implements Comparable<SkunkPlay
 	public abstract boolean wantsToRollDice();
 
 	public void rolledDoubleSkunk() {
+		this.setChips(-4);
 		this.clearScore();
 	}
 
