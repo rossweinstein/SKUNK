@@ -51,7 +51,7 @@ $ git clone https://github.com/rossweinstein/SKUNK
 
 Once you have the repository cloned, run SkunkApp.java which is located in the *skunkApp* package. 
 
-## A few notes on this implementation of skunk
+## A few notes on this implementation of Skunk
 
 * When it is a player's turn, they automatically roll the dice once. They are then prompted to see if they want to take additional rolls.
 * During the final found, when one player has a score of equal or greater than 100 and every other player has one final chance to beat them, the player will automatically roll until they have a score greater than the player with the high score or a skunk. If they do reach a score greater than the player with the high score, they will be prompted to see if they want to continue rolling.
