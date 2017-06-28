@@ -1,7 +1,6 @@
 package skunkApp.game;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import helpers.InputHelper;
 import model.player.SkunkPlayer;
@@ -16,17 +15,23 @@ import model.player.SkunkPlayer;
  *
  */
 
-public class SkunkGameController {
+public class SkunkController {
 
 	private Skunk skunkGame;
 	private InputHelper input;
 	private boolean finalRound;
 
-	public SkunkGameController(int numOfPlayers, String[] userNames) {
+	public SkunkController(int numOfPlayers, String[] userNames) {
 		this.skunkGame = new Skunk(numOfPlayers, userNames);
 		this.input = new InputHelper();
 		this.finalRound = false;
 	}
+
+	/*////////////////////////////////////////////
+	 * 
+	 * BASIC SKUNK PLAYER METHODS
+	 * 
+	 *////////////////////////////////////////////
 
 	/**
 	 * Allows players to play as many rounds of Skunk as they like providing
@@ -45,12 +50,13 @@ public class SkunkGameController {
 			 * players going on to the next round have at least 1 chip, if they
 			 * don't, remove them for the next round
 			 */
-			if (this.theyWantToPlayMoreSkunk() && this.atLeastTwoPlayersHaveEnoughChips(this.skunkGame.getPlayers())) {
+			if (this.theyWantToPlayMoreSkunk()
+					&& this.skunkGame.atLeastTwoPlayersHaveEnoughChips(this.skunkGame.getPlayers())) {
 
-				this.skunkGame.setPlayers(this.getRidOfPlayersWithZeroChips(this.skunkGame.getPlayers()));
+				this.skunkGame.setPlayers(this.skunkGame.getRidOfPlayersWithZeroChips(this.skunkGame.getPlayers()));
 
 				// make sure everyone starts with a score of 0 in the next round
-				this.clearPlayerScores(this.skunkGame.getPlayers());
+				this.skunkGame.clearPlayerScores(this.skunkGame.getPlayers());
 
 				// it is not longer the final round
 				this.finalRound = false;
@@ -61,58 +67,6 @@ public class SkunkGameController {
 		}
 
 		System.out.println("End of Program...");
-	}
-
-	/**
-	 * Revert scores of all SkunkPlayers to zero
-	 * 
-	 * @param players
-	 *            List the current SkunkPlayers
-	 */
-	private void clearPlayerScores(List<SkunkPlayer> players) {
-		players.stream().forEach(player -> player.clearScore());
-	}
-
-	/**
-	 * Checks to see if at least two players (the min required to play a round)
-	 * have enough chips. This check is done before a new round begins.
-	 * 
-	 * @param players
-	 *            List the current SkunkPlayers
-	 * @return boolean true if there are enough players with chips; false
-	 *         otherwise
-	 */
-	private boolean atLeastTwoPlayersHaveEnoughChips(List<SkunkPlayer> players) {
-		return players.stream().filter(player -> player.getChips() > 0).collect(Collectors.toList()).size() >= 2;
-	}
-
-	/**
-	 * Return a new List of players with chips. This removes any players who do
-	 * not have enough chips to make it to the next round.
-	 * 
-	 * @param players
-	 *            List the current SkunkPlayers
-	 * @return List the SkunkPlayers with enough chips to play in the next round
-	 */
-	private List<SkunkPlayer> getRidOfPlayersWithZeroChips(List<SkunkPlayer> players) {
-		return players.stream().filter(player -> player.getChips() > 0).collect(Collectors.toList());
-	}
-
-	/**
-	 * Prompts the user to see if they want to play another round
-	 * 
-	 * @return boolean true if they want to play another round; false otherwise
-	 */
-	private boolean theyWantToPlayMoreSkunk() {
-		return this.input.askBinaryQuestion("\nPlay another round? (y/n)", "y", "n");
-	}
-
-	/**
-	 * Prints the players who are playing the current round to the console
-	 */
-	private void displayPlayers() {
-		System.out.println("Now Playing:");
-		this.skunkGame.getPlayers().stream().forEach(player -> System.out.println("--- " + player.getName()));
 	}
 
 	/**
@@ -135,34 +89,6 @@ public class SkunkGameController {
 	}
 
 	/**
-	 * Finds the winner, awards them the kitty, print message to console
-	 */
-	private void handleWinner() {
-		SkunkPlayer gameWinner = this.skunkGame.theWinner(this.skunkGame.getPlayers());
-		gameWinner.wonKitty(this.skunkGame.getKitty().getAmount());
-		System.out.println("\nCONGRATULATIONS " + gameWinner.getName() + "! YOU WON THE ROUND AND COLLECT "
-				+ this.skunkGame.getKitty().getAmount() + " CHIPS FROM THE KITTY. " + gameWinner.getName()
-				+ "  NOW HAS " + gameWinner.getChips() + " CHIPS!");
-
-		this.skunkGame.getKitty().paidOutKitty();
-
-	}
-
-	/**
-	 * To play the final round we need to only allow those players who do not
-	 * have the current high score to play. Those players get a turn here.
-	 */
-	private void playFinalRound() {
-
-		System.out.println("\n-------------------FINAL ROUND-------------------\n");
-
-		this.finalRound = true;
-
-		List<SkunkPlayer> playersToRoll = this.skunkGame.findNonHighScorePlayers(this.skunkGame.getPlayers());
-		playersToRoll.stream().forEach(player -> this.turn(player));
-	}
-
-	/**
 	 * During the main game, each player gets a turn rolling the dice. If they
 	 * do not roll a skunk, they will be asked if they want to roll again. If
 	 * they do roll a skunk, the proper pentalty will be applied and their turn
@@ -175,14 +101,14 @@ public class SkunkGameController {
 
 		int turnScore = 0;
 
-		this.playerTurnBanner(activePlayer);
+		this.displayTurnBanner(activePlayer);
 
 		boolean stillWantsToRoll = true;
 		while (stillWantsToRoll) {
 
 			int[] currentRollValue = this.skunkGame.rollTheDice();
 
-			if (this.playerRolledAnySkunk(currentRollValue)) {
+			if (this.skunkGame.playerRolledAnySkunk(currentRollValue)) {
 
 				this.skunkHandler(currentRollValue, activePlayer);
 				stillWantsToRoll = false;
@@ -202,6 +128,41 @@ public class SkunkGameController {
 			}
 		}
 	}
+
+	/**
+	 * Prompts the user to see if they want to play another round
+	 * 
+	 * @return boolean true if they want to play another round; false otherwise
+	 */
+	private boolean theyWantToPlayMoreSkunk() {
+		return this.input.askBinaryQuestion("\nPlay another round? (y/n)", "y", "n");
+	}
+
+	/*////////////////////////////////////////////
+	 * 
+	 * FINAL ROUND METHDOS
+	 * 
+	 *////////////////////////////////////////////
+
+	/**
+	 * To play the final round we need to only allow those players who do not
+	 * have the current high score to play. Those players get a turn here.
+	 */
+	private void playFinalRound() {
+
+		System.out.println("\n-------------------FINAL ROUND-------------------\n");
+
+		this.finalRound = true;
+
+		List<SkunkPlayer> playersToRoll = this.skunkGame.findNonHighScorePlayers(this.skunkGame.getPlayers());
+		playersToRoll.stream().forEach(player -> this.turn(player));
+	}
+
+	/*////////////////////////////////////////////
+	 * 
+	 * ROLL METHODS
+	 * 
+	 *////////////////////////////////////////////
 
 	/**
 	 * Handles if it is not the final round, asking the player if they want to
@@ -275,28 +236,50 @@ public class SkunkGameController {
 	}
 
 	/**
-	 * Prints to the console the player name and current roll total
+	 * Adds the SkunkPlayers turn total to their score, displays how many points
+	 * they got, and ends their turn
 	 * 
 	 * @param activePlayer
 	 *            SkunkPlayer the current SkunkPlayer
-	 * @param currentRollValue
-	 *            int current roll value
+	 * @param turnScore
+	 *            int the number of points they got during their turn
 	 */
-	private void displayTurnTotal(SkunkPlayer activePlayer, int[] currentRollValue) {
-		System.out.println(activePlayer.getName() + " rolls a(n) " + (currentRollValue[0] + currentRollValue[1]));
+	private void playerEndsTurnWithoutSkunkRoll(SkunkPlayer activePlayer, int turnScore) {
+
+		activePlayer.addToScore(turnScore);
+		System.out.println(activePlayer.getName() + " passes the dice, now has " + activePlayer.getScore() + " points");
+
 	}
 
-	/**
-	 * Checks to see if they SkunkPlayer rolled a skunk
+	/*////////////////////////////////////////////
 	 * 
-	 * @param diceRoll
-	 *            int dice value
-	 * @return boolean true if they rolled any Skunk; false otherwise
+	 * WINNER HANDLER METHODS
+	 * 
+	 *////////////////////////////////////////////
+
+	/**
+	 * Finds the winner, awards them the kitty, print message to console
 	 */
-	private boolean playerRolledAnySkunk(int[] diceRoll) {
-		return this.skunkGame.doubleSkunk(diceRoll) || this.skunkGame.skunkWithDeuceRoll(diceRoll)
-				|| this.skunkGame.skunkWithoutDeuceRoll(diceRoll);
+	private void handleWinner() {
+
+		// find the winner
+		SkunkPlayer gameWinner = this.skunkGame.theWinner(this.skunkGame.getPlayers());
+
+		// pay out kitty to winner
+		gameWinner.wonKitty(this.skunkGame.getKitty().getAmount());
+
+		// winner print message
+		this.displayWinnerMessage(gameWinner);
+
+		// clear kitty for next round
+		this.skunkGame.getKitty().paidOutKitty();
 	}
+
+	/*////////////////////////////////////////////
+	 * 
+	 * SKUNK METHDOS
+	 * 
+	 *////////////////////////////////////////////
 
 	/**
 	 * If the SkunkPlayer rolled a skunk, this sees what kind of Skunk it was
@@ -321,33 +304,6 @@ public class SkunkGameController {
 
 			this.handleSkunkWithoutDeuce(activePlayer);
 		}
-	}
-
-	/**
-	 * Print to the console the players name, score, and current chip total
-	 * 
-	 * @param activePlayer
-	 *            SkunkPlayer the current SkunkPlayer
-	 */
-	private void playerTurnBanner(SkunkPlayer activePlayer) {
-		System.out.println("\n-----------" + activePlayer.getName() + "'s turn----------- " + activePlayer.getScore()
-				+ " pts | " + activePlayer.getChips() + " chips");
-	}
-
-	/**
-	 * Adds the SkunkPlayers turn total to their score, displays how many points
-	 * they got, and ends their turn
-	 * 
-	 * @param activePlayer
-	 *            SkunkPlayer the current SkunkPlayer
-	 * @param turnScore
-	 *            int the number of points they got during their turn
-	 */
-	private void playerEndsTurnWithoutSkunkRoll(SkunkPlayer activePlayer, int turnScore) {
-
-		activePlayer.addToScore(turnScore);
-		System.out.println(activePlayer.getName() + " passes the dice, now has " + activePlayer.getScore() + " points");
-
 	}
 
 	/**
@@ -398,6 +354,7 @@ public class SkunkGameController {
 	 *            int how many chips must they give to the Kitty
 	 */
 	private void handleSkunkPenalty(SkunkPlayer activePlayer, String skunkType, int kittyPenalty) {
+
 		System.out.println(activePlayer.getName() + " rolled a " + skunkType + "!");
 
 		if (activePlayer.hasEnoughChips(kittyPenalty)) {
@@ -406,26 +363,90 @@ public class SkunkGameController {
 
 		} else {
 
-			System.out.println("\n" + activePlayer.getName()
-					+ " does not have enough chips to play the kitty. Player pays remaining " + activePlayer.getChips()
-					+ " to kitty and is removed from game");
-			this.skunkGame.getKitty().addToKitty(activePlayer.getChips());
-			this.removePlayerWithNoChipsFromGame(activePlayer);
-			activePlayer.notEnoughChipsForKitty();
-
+			this.notEnoughChipsEliminatePlayer(activePlayer);
 		}
 	}
 
 	/**
-	 * Remove bankrupt SkunkPlayer from the game
+	 * If a SkunkPlayer does not have enough chips for thier penalty, all their
+	 * remaining chips are put into the kitty and the player is removed from the
+	 * game
 	 * 
 	 * @param activePlayer
 	 *            SkunkPlayer the current SkunkPlayer
 	 */
-	public void removePlayerWithNoChipsFromGame(SkunkPlayer activePlayer) {
-		List<SkunkPlayer> playersWithChips = this.skunkGame.getPlayers().stream()
-				.filter(player -> !player.isPlayerBankrupt()).collect(Collectors.toList());
+	private void notEnoughChipsEliminatePlayer(SkunkPlayer activePlayer) {
 
-		this.skunkGame.setPlayers(playersWithChips);
+		this.displayPlayerDoesNotHaveEnoughChips(activePlayer);
+
+		// player pays to kitty what they can
+		this.skunkGame.getKitty().addToKitty(activePlayer.getChips());
+
+		// declare the player as bankrupt and remove them from game
+		activePlayer.notEnoughChipsForKitty();
+		this.skunkGame.removeBankruptPlayers();
+
+	}
+
+	/*////////////////////////////////////////////
+	 * 
+	 * CONSOLE DISPLAY METHDOS
+	 * 
+	 *////////////////////////////////////////////
+
+	/**
+	 * Prints the players who are playing the current round to the console
+	 */
+	private void displayPlayers() {
+		System.out.println("Now Playing:");
+		this.skunkGame.getPlayers().stream().forEach(player -> System.out.println("--- " + player.getName()));
+	}
+
+	/**
+	 * Prints to the console the player name and current roll total
+	 * 
+	 * @param activePlayer
+	 *            SkunkPlayer the current SkunkPlayer
+	 * @param currentRollValue
+	 *            int current roll value
+	 */
+	private void displayTurnTotal(SkunkPlayer activePlayer, int[] currentRollValue) {
+		System.out.println(activePlayer.getName() + " rolls a(n) " + (currentRollValue[0] + currentRollValue[1]));
+	}
+
+	/**
+	 * Prints to the console the winner of the round and how many chips they won
+	 * from the kitty
+	 * 
+	 * @param gameWinner
+	 *            SkunkPlayer the player who won the round
+	 */
+	private void displayWinnerMessage(SkunkPlayer gameWinner) {
+		System.out.println("\nCONGRATULATIONS " + gameWinner.getName() + "! YOU WON THE ROUND AND COLLECT "
+				+ this.skunkGame.getKitty().getAmount() + " CHIPS FROM THE KITTY. " + gameWinner.getName()
+				+ "  NOW HAS " + gameWinner.getChips() + " CHIPS!");
+	}
+
+	/**
+	 * Print to the console the players name, score, and current chip total
+	 * 
+	 * @param activePlayer
+	 *            SkunkPlayer the current SkunkPlayer
+	 */
+	private void displayTurnBanner(SkunkPlayer activePlayer) {
+		System.out.println("\n-----------" + activePlayer.getName() + "'s turn----------- " + activePlayer.getScore()
+				+ " pts | " + activePlayer.getChips() + " chips");
+	}
+
+	/**
+	 * Print the the console that the player does not have enough chips
+	 * 
+	 * @param activePlayer
+	 *            SkunkPlayer the current SkunkPlayer
+	 */
+	private void displayPlayerDoesNotHaveEnoughChips(SkunkPlayer activePlayer) {
+		System.out.println(
+				"\n" + activePlayer.getName() + " does not have enough chips to play the kitty. Player pays remaining "
+						+ activePlayer.getChips() + " to kitty and is removed from game");
 	}
 }

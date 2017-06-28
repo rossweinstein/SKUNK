@@ -13,12 +13,12 @@ import helpers.MenuBuilder;
  *
  */
 
-public class SkunkGame {
+public class SkunkSetUp {
 
 	private InputHelper input;
 	private MenuBuilder mainMenu;
 
-	public SkunkGame() {
+	public SkunkSetUp() {
 		this.input = new InputHelper();
 		this.mainMenu = new MenuBuilder("Skunk", "Play Game", "Exit");
 	}
@@ -58,7 +58,7 @@ public class SkunkGame {
 		numOfPlayers += this.anyCPUPlayers(numOfPlayers);
 
 		// start the game
-		SkunkGameController skunk = new SkunkGameController(numOfPlayers, playerNames);
+		SkunkController skunk = new SkunkController(numOfPlayers, playerNames);
 		skunk.playSkunk();
 	}
 

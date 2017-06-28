@@ -72,6 +72,35 @@ public abstract class SkunkPlayer extends Player implements Comparable<SkunkPlay
 			return -1;
 		}
 	}
+	
+	/**
+	 * Getter for SkunkPlayer chips total
+	 * 
+	 * @return int how many chips SkunkPlayer has
+	 */
+	public int getChips() {
+		return chips;
+	}
+	
+	/**
+	 * Increase SkunkPlayer chip total by given amount
+	 * 
+	 * @param numOfChips
+	 *            int how many chips to add to this SkunkPlayer
+	 */
+	public void setChips(int numOfChips) {
+		this.chips += numOfChips;
+	}
+	
+	/**
+	 * Does the player have 0 or more chips during the game?
+	 * 
+	 * @return boolean true if they have at least 0 chips; false if they
+	 *         received a skunk penalty and could not pay in full
+	 */
+	public boolean isPlayerBankrupt() {
+		return this.bankrupt;
+	}
 
 	/**
 	 * Checks if the player wants to roll the dice again (Abstract)
@@ -117,15 +146,6 @@ public abstract class SkunkPlayer extends Player implements Comparable<SkunkPlay
 	}
 
 	/**
-	 * Getter for SkunkPlayer chips total
-	 * 
-	 * @return int how many chips SkunkPlayer has
-	 */
-	public int getChips() {
-		return chips;
-	}
-
-	/**
 	 * Check to see if SkunkPlayer has enough chips to pay to the kitty. This is
 	 * helpful in the game because if there is a moment when the player does not
 	 * have enough chips, they will pay their remaining chip total and be
@@ -139,15 +159,7 @@ public abstract class SkunkPlayer extends Player implements Comparable<SkunkPlay
 		return this.chips - chipPenalty >= 0;
 	}
 
-	/**
-	 * Increase SkunkPlayer chip total by given amount
-	 * 
-	 * @param numOfChips
-	 *            int how many chips to add to this SkunkPlayer
-	 */
-	private void setChips(int numOfChips) {
-		this.chips += numOfChips;
-	}
+
 
 	/**
 	 * If player does not have enough chips for kitty, set value to -100 so we
@@ -157,15 +169,7 @@ public abstract class SkunkPlayer extends Player implements Comparable<SkunkPlay
 		this.bankrupt = true;
 	}
 
-	/**
-	 * Does the player have 0 or more chips during the game?
-	 * 
-	 * @return boolean true if they have at least 0 chips; false if they
-	 *         received a skunk penalty and could not pay in full
-	 */
-	public boolean isPlayerBankrupt() {
-		return this.bankrupt;
-	}
+
 
 	/**
 	 * Check to see whether a SkunkPlayer has a score of at least 100. This is

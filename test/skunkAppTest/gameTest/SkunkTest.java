@@ -132,4 +132,78 @@ public class SkunkTest {
 		
 		assertNull(this.skunk.theWinner(lessThan100));
 	}
+	
+	@Test
+	public void playerRolledAnySkunkTrue1() {
+		int[] diceRoll = new int[] {1, 2};
+		assertTrue(this.skunk.playerRolledAnySkunk(diceRoll));
+	}
+	
+	@Test
+	public void playerRolledAnySkunkTrue2() {
+		int[] diceRoll = new int[] {1, 1};
+		assertTrue(this.skunk.playerRolledAnySkunk(diceRoll));
+	}
+	
+	@Test
+	public void playerRolledAnySkunkTrue3() {
+		int[] diceRoll = new int[] {1, 5};
+		assertTrue(this.skunk.playerRolledAnySkunk(diceRoll));
+	}
+	
+	@Test
+	public void playerRolledAnySkunkFalse() {
+		int[] diceRoll = new int[] {2, 2};
+		assertFalse(this.skunk.playerRolledAnySkunk(diceRoll));
+	}
+	
+	@Test
+	public void endOfGameClearPlayerScores() {
+		this.skunk.clearPlayerScores(this.skunk.getPlayers());
+		assertTrue(this.skunk.getPlayers().get(0).getScore() == 0);
+	}
+	
+	@Test
+	public void atLeastTwoPlayersCanPlay() {
+		assertTrue(this.skunk.atLeastTwoPlayersHaveEnoughChips(this.skunk.getPlayers()));
+	}
+	
+	@Test
+	public void atLeastTwoPlayersCantPlay() {
+		
+		this.skunk.getPlayers().get(0).setChips(-104);
+		this.skunk.getPlayers().get(1).setChips(-134);
+		this.skunk.getPlayers().get(2).setChips(-150);
+		this.skunk.getPlayers().get(3).setChips(-51);
+		assertFalse(this.skunk.atLeastTwoPlayersHaveEnoughChips(this.skunk.getPlayers()));	
+	}
+	
+	@Test
+	public void getRidOfPlayerWithZeroChips() {
+		
+		this.skunk.getPlayers().get(0).setChips(-104);
+		
+		List<SkunkPlayer> players = this.skunk.getRidOfPlayersWithZeroChips(this.skunk.getPlayers());
+		assertTrue(players.size() == 3);
+	}
+	
+	@Test
+	public void allPlayersHaveChipsDontGetRidOfAny() {
+		
+		List<SkunkPlayer> players = this.skunk.getRidOfPlayersWithZeroChips(this.skunk.getPlayers());
+		assertTrue(players.size() == 4);
+	}
+	
+	@Test
+	public void removeBankruptPlayerFromGame() {
+		this.skunk.getPlayers().get(0).notEnoughChipsForKitty();
+		this.skunk.removeBankruptPlayers();
+		assertTrue(this.skunk.getPlayers().size() == 3);
+	}
+	
+	@Test
+	public void noPlayersAreBankrupt() {
+		this.skunk.removeBankruptPlayers();
+		assertTrue(this.skunk.getPlayers().size() == 4);
+	}
 }
