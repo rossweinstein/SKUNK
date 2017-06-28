@@ -5,20 +5,20 @@ import helpers.MenuBuilder;
 
 /**
  * 
- * SkunkGame is responsible for the game setup. It will present the main menu,
+ * SkunkMainMenu is responsible for the game setup. It will present the main menu,
  * find the number of human and cpu players, get their names, and then pass all
- * the needed information to the SkunkGameController to start the game.
+ * the needed information to the SkunkController to start the game.
  * 
  * @author Ross Weinstein
  *
  */
 
-public class SkunkSetUp {
+public class SkunkMainMenu {
 
 	private InputHelper input;
 	private MenuBuilder mainMenu;
 
-	public SkunkSetUp() {
+	public SkunkMainMenu() {
 		this.input = new InputHelper();
 		this.mainMenu = new MenuBuilder("Skunk", "Play Game", "Exit");
 	}

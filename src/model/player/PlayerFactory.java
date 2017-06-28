@@ -37,9 +37,9 @@ public class PlayerFactory {
 		for (int i = 0; i < numOfPlayers; i++) {
 
 			if (i < users.length) {
-				thePlayers.add(new UserController(users[i], chipStartingAmount));
+				thePlayers.add(new HumanSkunkPlayer(users[i], chipStartingAmount));
 			} else {
-				thePlayers.add(new CPUController(CPUNames.get(i - users.length) + " (CPU)", chipStartingAmount));
+				thePlayers.add(new CPUSkunkPlayer(CPUNames.get(i - users.length) + " (CPU)", chipStartingAmount));
 			}
 		}
 		return thePlayers;

@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import model.player.CPUController;
+import model.player.CPUSkunkPlayer;
 import model.player.SkunkPlayer;
 
 public class CPUControllerTest {
@@ -15,7 +15,7 @@ public class CPUControllerTest {
 	
 	@Before
 	public void SetUp() {
-		this.cpuPlayer = new CPUController("Ross", 50);
+		this.cpuPlayer = new CPUSkunkPlayer("Ross", 50);
 	}
 
 	@Test

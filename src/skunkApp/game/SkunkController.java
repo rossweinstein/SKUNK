@@ -7,7 +7,7 @@ import model.player.SkunkPlayer;
 
 /**
  * 
- * SkunkGameController brings everything together to play skunk. It handles all
+ * SkunkController brings everything together to play skunk. It handles all
  * the input for the game and ensures the proper functionality for the Skunk
  * Class.
  * 
@@ -398,7 +398,7 @@ public class SkunkController {
 	 * Prints the players who are playing the current round to the console
 	 */
 	private void displayPlayers() {
-		System.out.println("Now Playing:");
+		System.out.println("\nNow Playing:");
 		this.skunkGame.getPlayers().stream().forEach(player -> System.out.println("--- " + player.getName()));
 	}
 
@@ -422,9 +422,9 @@ public class SkunkController {
 	 *            SkunkPlayer the player who won the round
 	 */
 	private void displayWinnerMessage(SkunkPlayer gameWinner) {
-		System.out.println("\nCONGRATULATIONS " + gameWinner.getName() + "! YOU WON THE ROUND AND COLLECT "
-				+ this.skunkGame.getKitty().getAmount() + " CHIPS FROM THE KITTY. " + gameWinner.getName()
-				+ "  NOW HAS " + gameWinner.getChips() + " CHIPS!");
+		System.out.println("\nCONGRATULATIONS " + gameWinner.getName() + "! You won the round and collect "
+				+ this.skunkGame.getKitty().getAmount() + " chips from the kitty! " + gameWinner.getName()
+				+ " now has " + gameWinner.getChips() + " chips!");
 	}
 
 	/**

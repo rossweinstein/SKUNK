@@ -1,6 +1,6 @@
 package skunkApp;
 
-import skunkApp.game.SkunkSetUp;
+import skunkApp.game.SkunkMainMenu;
 
 /**
  * 
@@ -54,7 +54,7 @@ import skunkApp.game.SkunkSetUp;
 public class SkunkApp {
 
 	public static void main(String[] args) {
-		SkunkSetUp skunkGame = new SkunkSetUp();
+		SkunkMainMenu skunkGame = new SkunkMainMenu();
 		skunkGame.playGame();
 	}
 }

@@ -12,11 +12,11 @@ import java.util.Random;
  *
  */
 
-public class CPUController extends SkunkPlayer {
+public class CPUSkunkPlayer extends SkunkPlayer {
 
 	private Random rand;
 
-	public CPUController(String name, int chips) {
+	public CPUSkunkPlayer(String name, int chips) {
 		super(name, chips);
 		this.rand = new Random();
 	}
@@ -26,6 +26,7 @@ public class CPUController extends SkunkPlayer {
 	 */
 	@Override
 	public boolean wantsToRollDice() {
+	
 		return this.rand.nextBoolean();
 	}
 }

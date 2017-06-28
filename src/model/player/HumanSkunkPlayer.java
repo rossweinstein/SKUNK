@@ -11,11 +11,11 @@ import helpers.InputHelper;
  *
  */
 
-public class UserController extends SkunkPlayer {
+public class HumanSkunkPlayer extends SkunkPlayer {
 
 	private InputHelper input;
 
-	public UserController(String name, int chips) {
+	public HumanSkunkPlayer(String name, int chips) {
 		super(name, chips);
 		this.input = new InputHelper();
 	}

@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import model.player.SkunkPlayer;
-import model.player.UserController;
+import model.player.HumanSkunkPlayer;
 
 public class UserControllerTest {
 
@@ -15,7 +15,7 @@ public class UserControllerTest {
 	
 	@Before
 	public void SetUp() {
-		this.user = new UserController("Ross", 50);
+		this.user = new HumanSkunkPlayer("Ross", 50);
 	}
 
 	@Test
