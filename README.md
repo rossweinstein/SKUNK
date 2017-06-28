@@ -41,11 +41,18 @@ receives one more chance to better the goal and end the game.
 The winner of each game collects all chips in "kitty" and in addition five
 chips from each losing player or 10 chips from any player without a score.
 
-## RUNNING THIS VERSION OF SKUNK
+## Installation
+
+```
+$ git clone https://github.com/rossweinstein/SKUNK
+```
+
+## Running the code
+
+Once you have the repository cloned, navigate to the package *skunkApp* within the *src* folder to find SkunkApp.java.  Run this file and the game will start. 
 
 
-
-## A FEW NOTES ON THIS IMPLEMENTATION OF SKUNK
+## A few notes on this implementaiton of skunk
 
 * When it is a player's turn, they automatically roll the dice. It is only if they want to take additional rolls that they are prompted with a choice.
 * During the final found, when one player has a score of equal or greater than 100 and every other player has one final chance to beat them, the player will automatically roll until they have a score greater than the player with the high score or a skunk. If they do reach a score greater than the player with the high score, they will be prompted to see if they want to continue rolling.
