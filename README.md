@@ -57,4 +57,4 @@ Once you have the repository cloned, run SkunkApp.java which is located in the *
 * During the final found, when one player has a score of equal or greater than 100 and every other player has one final chance to beat them, the player will automatically roll until they have a score greater than the player with the high score or a skunk. If they do reach a score greater than the player with the high score, they will be prompted to see if they want to continue rolling.
 * Every player starts with 50 chips. Since this is a command line game, there is no need for chip denomination (i.e. red is worth 5). All chips have a value of one.
 * If a player incurs a penalty and do not have sufficient chips to pay, they will pay their remaining chips to the kitty and then be removed from the game
-* If at the end of the round a player has zero chips, they will not be included in the next round
+* If at the end of the round a player has zero chips, they will not be included in the next round if the other players want to play another round
