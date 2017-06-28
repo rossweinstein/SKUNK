@@ -4,8 +4,8 @@ import skunkApp.game.SkunkMainMenu;
 
 /**
  * 
- * This app that allows a user to play skunk, and old dice game, against other
- * users or the computer.
+ * This app that allows a user to play skunk, an old dice game, against up to 7 other
+ * opponents (both human and CPU).
  * 
  * (From the inside of the game box)
  * 
