@@ -27,6 +27,12 @@ public class Skunk {
 		this.theKitty = new Kitty();
 		this.dice = new DiceSet();
 	}
+	
+	/*////////////////////////////////////////////
+	 * 
+	 * 		GETTERS / SETTERS
+	 * 
+	 *////////////////////////////////////////////
 
 	/**
 	 * Getter for the current SkunkPlayers
@@ -55,6 +61,73 @@ public class Skunk {
 	public Kitty getKitty() {
 		return this.theKitty;
 	}
+	
+	/*////////////////////////////////////////////
+	 * 
+	 * 		ROLL / SKUNK METHODS
+	 * 
+	 *////////////////////////////////////////////
+
+	/**
+	 * Simulates the SkunkPlayer rolling a set of dice
+	 * 
+	 * @return int[] an array of size 2 where each individual die's value is
+	 *         represented
+	 */
+	public int[] rollTheDice() {
+		return this.dice.roll();
+	}
+
+	/**
+	 * Determines if the roll was a Skunk with a deuce
+	 * 
+	 * @param lastRoll
+	 *            int[] the last dice roll
+	 * @return boolean true if a skunk with a deuce; false otherwise
+	 */
+	public boolean skunkWithDeuceRoll(int[] lastRoll) {
+		return lastRoll[0] + lastRoll[1] == 3;
+	}
+
+	/**
+	 * Determines if the roll was a Skunk without a deuce
+	 * 
+	 * @param lastRoll
+	 *            int[] the last dice roll
+	 * @return boolean true if a skunk without a deuce; false otherwise
+	 */
+	public boolean skunkWithoutDeuceRoll(int[] lastRoll) {
+		return lastRoll[0] + lastRoll[1] > 3 && lastRoll[0] == 1 || lastRoll[1] == 1;
+	}
+
+	/**
+	 * Determines if the roll was a Double Skunk
+	 * 
+	 * @param lastRoll
+	 *            int[] the last dice roll
+	 * @return boolean true if a Double Skunk; false otherwise
+	 */
+	public boolean doubleSkunk(int[] lastRoll) {
+		return lastRoll[0] + lastRoll[1] == 2;
+	}
+	
+	/**
+	 * Checks to see if they SkunkPlayer rolled a skunk
+	 * 
+	 * @param diceRoll
+	 *            int dice value
+	 * @return boolean true if they rolled any Skunk; false otherwise
+	 */
+	public boolean playerRolledAnySkunk(int[] diceRoll) {
+		return this.doubleSkunk(diceRoll) || this.skunkWithDeuceRoll(diceRoll)
+				|| this.skunkWithoutDeuceRoll(diceRoll);
+	}
+	
+	/*////////////////////////////////////////////
+	 * 
+	 * 		WINNER METHODS
+	 * 
+	 *////////////////////////////////////////////
 
 	/**
 	 * Finds out if there is a winner or not. Checks to see if the player with
@@ -90,6 +163,12 @@ public class Skunk {
 		return currentPlayers.get(0).scoreAtLeast100()
 				&& currentPlayers.get(0).getScore() > currentPlayers.get(1).getScore();
 	}
+	
+	/*////////////////////////////////////////////
+	 * 
+	 * 		SORT / COMPARE / CHECK PLAYER METHODS
+	 * 
+	 *////////////////////////////////////////////
 
 	/**
 	 * Checks to see if at least one player has 100 points. This is needed to
@@ -134,47 +213,52 @@ public class Skunk {
 		return skunkPlayers.stream().sorted((player1, player2) -> player1.compareTo(player2))
 				.collect(Collectors.toList());
 	}
-
+	
 	/**
-	 * Simulates the SkunkPlayer rolling a set of dice
+	 * Revert scores of all SkunkPlayers to zero
 	 * 
-	 * @return int[] an array of size 2 where each individual die's value is
-	 *         represented
+	 * @param players
+	 *            List the current SkunkPlayers
 	 */
-	public int[] rollTheDice() {
-		return this.dice.roll();
+	public void clearPlayerScores(List<SkunkPlayer> players) {
+		players.stream().forEach(player -> player.clearScore());
+	}
+	
+	/**
+	 * Checks to see if at least two players (the min required to play a round)
+	 * have enough chips. This check is done before a new round begins.
+	 * 
+	 * @param players
+	 *            List the current SkunkPlayers
+	 * @return boolean true if there are enough players with chips; false
+	 *         otherwise
+	 */
+	public boolean atLeastTwoPlayersHaveEnoughChips(List<SkunkPlayer> players) {
+		return players.stream().filter(player -> player.getChips() > 0).collect(Collectors.toList()).size() >= 2;
 	}
 
 	/**
-	 * Determines if the roll was a Skunk with a deuce
+	 * Return a new List of players with chips. This removes any players who do
+	 * not have enough chips to make it to the next round.
 	 * 
-	 * @param lastRoll
-	 *            int[] the last dice roll
-	 * @return boolean true if a skunk with a deuce; false otherwise
+	 * @param players
+	 *            List the current SkunkPlayers
+	 * @return List the SkunkPlayers with enough chips to play in the next round
 	 */
-	public boolean skunkWithDeuceRoll(int[] lastRoll) {
-		return lastRoll[0] + lastRoll[1] == 3;
+	public List<SkunkPlayer> getRidOfPlayersWithZeroChips(List<SkunkPlayer> players) {
+		return players.stream().filter(player -> player.getChips() > 0).collect(Collectors.toList());
 	}
-
+	
 	/**
-	 * Determines if the roll was a Skunk without a deuce
+	 * Remove bankrupt SkunkPlayer from the game
 	 * 
-	 * @param lastRoll
-	 *            int[] the last dice roll
-	 * @return boolean true if a skunk without a deuce; false otherwise
+	 * @param activePlayer
+	 *            SkunkPlayer the current SkunkPlayer
 	 */
-	public boolean skunkWithoutDeuceRoll(int[] lastRoll) {
-		return lastRoll[0] + lastRoll[1] > 3 && lastRoll[0] == 1 || lastRoll[1] == 1;
-	}
+	public void removeBankruptPlayers() {
+		List<SkunkPlayer> playersWithChips = this.getPlayers().stream()
+				.filter(player -> !player.isPlayerBankrupt()).collect(Collectors.toList());
 
-	/**
-	 * Determines if the roll was a Double Skunk
-	 * 
-	 * @param lastRoll
-	 *            int[] the last dice roll
-	 * @return boolean true if a Double Skunk; false otherwise
-	 */
-	public boolean doubleSkunk(int[] lastRoll) {
-		return lastRoll[0] + lastRoll[1] == 2;
+		this.setPlayers(playersWithChips);
 	}
 }
