@@ -11,7 +11,7 @@ import org.junit.Test;
 import model.player.SkunkPlayer;
 import skunkApp.game.SkunkController;
 
-public class SkunkTest {
+public class SkunkControllerTest {
 	
 	private SkunkController skunk;
 	
