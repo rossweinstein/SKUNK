@@ -206,4 +206,14 @@ public class SkunkTest {
 		this.skunk.removeBankruptPlayers();
 		assertTrue(this.skunk.getPlayers().size() == 4);
 	}
+	
+	@Test
+	public void getCorrectTopPlayers() {
+		
+		// make player equal other top player
+		this.skunk.getPlayers().get(1).addToScore(70);
+		this.skunk.getPlayers().get(2).addToScore(-46);
+		System.out.println(this.skunk.getTopPlayers(this.skunk.getPlayers()));
+		assertTrue(this.skunk.getTopPlayers(this.skunk.getPlayers()).size() == 3);
+	}
 }
