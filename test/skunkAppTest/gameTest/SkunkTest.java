@@ -9,15 +9,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 import model.player.SkunkPlayer;
-import skunkApp.game.Skunk;
+import skunkApp.game.SkunkController;
 
 public class SkunkTest {
 	
-	private Skunk skunk;
+	private SkunkController skunk;
 	
 	@Before
 	public void SetUp() {
-		this.skunk = new Skunk(4, new String[] {"Ross",  "Weinstein"});
+		this.skunk = new SkunkController(4, new String[] {"Ross",  "Weinstein"});
 		this.skunk.getPlayers().get(0).addToScore(104);
 		this.skunk.getPlayers().get(1).addToScore(34);
 		this.skunk.getPlayers().get(2).addToScore(150);
