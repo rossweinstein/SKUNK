@@ -58,7 +58,7 @@ public class SkunkMainMenu {
 		numOfPlayers += this.anyCPUPlayers(numOfPlayers);
 
 		// start the game
-		SkunkController skunk = new SkunkController(numOfPlayers, playerNames);
+		SkunkAppController skunk = new SkunkAppController(numOfPlayers, playerNames);
 		skunk.playSkunk();
 	}
 
