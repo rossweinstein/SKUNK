@@ -58,3 +58,4 @@ Once you have the repository cloned, run SkunkApp.java which is located in the *
 * Every player starts with 50 chips. Since this is a command line game, there is no need for chip denomination (i.e. red is worth 5). All chips have a value of one.
 * If a player incurs a penalty and do not have sufficient chips to pay, they will pay their remaining chips to the kitty and then be removed from the game
 * If at the end of the round a player has zero chips, they will not be included in the next round if the other players want to play another round
+* If at the end of the final round two or more players have identical high score, those players will participate in a sudden death round. Here, each of these players will play a mini round until one player has the most points. If any player rolls a skunk, there is no chip penalty, they just lose their points for that turn.
